@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>All Departments</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+	<div th:insert="header :: header"></div>
+	<div class="container">
+
+		<div th:switch="${departments}" class="container my-2">
+			<button class="btn btn-primary btn-lg d-inline-flex align-items-center my-5" type="button" onclick="location.href='/addDepartment'">
+				Add Department
+			</button>
+
+			<div class="col-md-12">
+				<h2 th:case="null">No record found !!</h2>
+				<div th:case="*">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Department</th>
+								<th>Edit</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="department : ${departments}">
+								<td th:text="${department.name}"></td>
+								<td><a th:href="@{/updateDepartment/{id}(id=${department.id})}"
+									   class="btn btn-primary btn-lg active" role="button" aria-pressed="true">edit</a></td>
+								<td><a
+									th:href="@{/remove-department/{id}(id=${department.id})}"
+									class="btn btn-primary btn-lg active" role="button" aria-pressed="true">delete</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
