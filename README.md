@@ -7,10 +7,10 @@
 - Login User Id: ```admin@admin.com``` & Password: ```admin```
 
 
-![obraz](https://github.com/SO5A/project3/assets/31935944/94f3512f-8665-4877-b275-45a29bbf4e79)
+![obraz](https://github.com/SO5A/project3/assets/31935944/e36c8237-9a8e-4dc3-a356-87054c696491)
 
-![obraz](https://github.com/SO5A/project3/assets/31935944/e8b79175-2fc9-4dd7-8701-8a7a31e6adf6)
+![obraz](https://github.com/SO5A/project3/assets/31935944/5da8b2dc-69f0-4bbb-a321-4d3a4f7d17cb)
 
-![obraz](https://github.com/SO5A/project3/assets/31935944/f4b1bac0-8cba-4871-b245-c863458efc3a)
+![obraz](https://github.com/SO5A/project3/assets/31935944/9f6f647b-a539-46c6-b1ae-25a416ce3baa)
 
-![obraz](https://github.com/SO5A/project3/assets/31935944/2d97a4c5-5e22-46ae-8885-7495869b0677)
+![obraz](https://github.com/SO5A/project3/assets/31935944/bcb092da-7a4f-4e95-8a45-befd5615f152)
