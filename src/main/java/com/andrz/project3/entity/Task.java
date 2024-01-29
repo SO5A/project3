@@ -1,19 +1,11 @@
 package com.andrz.project3.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tasks")
@@ -21,7 +13,7 @@ public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long task_id;
 
 	@Column(name = "name", length = 100, nullable = false)
 	private String name;
@@ -39,11 +31,18 @@ public class Task {
 			@JoinColumn(name = "department_id") })
 	private Set<Department> departments = new HashSet<Department>();
 
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<DBFile> dbFiles = new ArrayList<>();
+	public Task() {
+	}
 	public Task(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
-
+	public void addDbFile(DBFile file) {
+		dbFiles.add(file);
+		file.setTask(this);
+	}
 	public void addEmployees(Employee employee) {
 		this.employees.add(employee);
 		employee.getTasks().add(this);
@@ -64,13 +63,20 @@ public class Task {
 		department.getTasks().remove(this);
 	}
 
-
-	public Long getId() {
-		return id;
+	public List<DBFile> getDbFiles() {
+		return dbFiles;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setDbFiles(List<DBFile> dbFiles) {
+		this.dbFiles = dbFiles;
+	}
+
+	public Long getTask_id() {
+		return task_id;
+	}
+
+	public void setTask_id(Long task_id) {
+		this.task_id = task_id;
 	}
 
 	public String getName() {
@@ -104,9 +110,5 @@ public class Task {
 	public void setDepartments(Set<Department> departments) {
 		this.departments = departments;
 	}
-
-	public Task() {
-		super();
-	}
-
+	
 }

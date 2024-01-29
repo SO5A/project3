@@ -11,34 +11,40 @@
 </head>
 
 <body>
-	<div th:insert="header :: header"></div>
-	<div class="container my-5">
-		<h3>Update Book</h3>
-			<div class="card-body">
-				<div class="col-md-10">
-					<form action="#" th:action="@{/update-task/{id}(id=${task.id})}"
-						th:object="${task}" method="post">
-						<div class="row">
+<div th:insert="header :: header"></div>
+<div class="container my-5">
+	<h3>Update Task</h3>
+	<div class="card-body">
+		<div class="col-md-10">
+			<form action="#" th:action="@{/update-task/{id}(id=${task.task_id})}" th:object="${task}" method="post" enctype="multipart/form-data">
+				<div class="row">
+					<div class="form-group col-md-12">
+						<input type="text" th:field="*{name}" class="form-control" id="name" />
+						<label class="form-label">Task Name</label>
+					</div>
+					<div class="form-group col-md-12">
+						<input type="text" th:field="*{description}" class="form-control" id="description" />
+						<label class="form-label">Description</label>
+					</div>
+					<div class="form-group col-md-12">
+						<label class="form-label">Attached Files:</label>
+						<ul style="list-style: none;">
+							<li th:each="dbFile : ${task.dbFiles}">
+								<a th:href="@{/download/{fileId}(fileId=${dbFile.id})}" th:text="${dbFile.fileName}">Download</a>
+							</li>
+						</ul>
+					</div>
 
-
-							<div class="form-group col-md-12">
-								<input type="text" th:field="*{name}" class="form-control" id="name"/>
-								<label class="form-label">Task Name</label>
-							</div>
-
-							<div class="form-group col-md-12">
-								<input type="text" th:field="*{description}"
-									class="form-control" id="description"/>
-								<label class="form-label">Description</label>
-							</div>
-
-							<div class="col-md-12">
-								<button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
-							</div>
-						</div>
-					</form>
+					<div class="form-group col-md-12">
+						<input type="file" name="file" multiple />
+					</div>
+					<div class="col-md-12">
+						<button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+					</div>
 				</div>
-			</div>
+			</form>
 		</div>
+	</div>
+</div>
 </body>
 </html>

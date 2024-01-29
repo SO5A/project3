@@ -52,11 +52,11 @@
 								<td th:text="${task.description}"></td>
 								<td th:text="${task.employees[0].name}"></td>
 								<td> </td>
-								<td><a th:href="@{/task/{id}(id=${task.id})}"
+								<td><a th:href="@{/task/{id}(id=${task.task_id})}"
 									   class="btn btn-primary btn-lg active" role="button" aria-pressed="true">detail</a></td>
-								<td><a th:href="@{/update/{id}(id=${task.id})}"
+								<td><a th:href="@{/update/{id}(id=${task.task_id})}"
 									   class="btn btn-primary btn-lg active" role="button" aria-pressed="true">edit</a></td>
-								<td><a th:href="@{/remove-task/{id}(id=${task.id})}"
+								<td><a th:href="@{/remove-task/{id}(id=${task.task_id})}"
 									   class="btn btn-primary btn-lg active" role="button" aria-pressed="true">delete</a></td>
 							</tr>
 						</tbody>

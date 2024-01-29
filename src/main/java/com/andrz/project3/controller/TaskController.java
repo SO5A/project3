@@ -1,10 +1,11 @@
 package com.andrz.project3.controller;
-
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.andrz.project3.entity.DBFile;
 import com.andrz.project3.entity.Task;
+import com.andrz.project3.service.DBFileStorageService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.andrz.project3.service.EmployeeService;
 import com.andrz.project3.service.TaskService;
 import com.andrz.project3.service.DepartmentService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class TaskController {
@@ -25,12 +27,13 @@ public class TaskController {
 	final TaskService taskService;
 	final EmployeeService employeeService;
 	final DepartmentService departmentService;
-
+	final DBFileStorageService dbFileStorageService;
 	public TaskController(DepartmentService departmentService, TaskService taskService,
-						  EmployeeService employeeService) {
+						  EmployeeService employeeService, DBFileStorageService dbFileStorageService) {
 		this.employeeService = employeeService;
 		this.taskService = taskService;
 		this.departmentService = departmentService;
+		this.dbFileStorageService = dbFileStorageService;
 	}
 
 	@RequestMapping({ "/tasks", "/" })
@@ -74,17 +77,24 @@ public class TaskController {
 		return "add-task";
 	}
 
-	@RequestMapping("/add-task")
-	public String createTask(Task task, BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			return "add-task";
-		}
 
-		taskService.createTask(task);
-		model.addAttribute("task", taskService.findAllTasks());
-		return "redirect:/tasks";
+@RequestMapping("/add-task")
+public String createTask(Task task, @RequestParam("file") MultipartFile[] files, BindingResult result, Model model) {
+	if (result.hasErrors()) {
+		return "add-task";
 	}
 
+
+	taskService.createTask(task);
+	for (MultipartFile file : files) {
+		DBFile dbFile = dbFileStorageService.storeFile(file, task);
+		task.addDbFile(dbFile);
+	}
+
+	taskService.updateTask(task);
+
+	return "redirect:/tasks";
+}
 	@GetMapping("/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
@@ -93,14 +103,16 @@ public class TaskController {
 	}
 
 	@RequestMapping("/update-task/{id}")
-	public String updateTask(@PathVariable("id") Long id, Task task, BindingResult result, Model model) {
+	public String updateTask(@PathVariable("id") Long id, Task task, @RequestParam("file") MultipartFile[] files, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			task.setId(id);
+			task.setTask_id(id);
 			return "update-task";
 		}
-
+		for (MultipartFile file : files) {
+			DBFile dbFile = dbFileStorageService.storeFile(file, task);
+			task.addDbFile(dbFile);
+		}
 		taskService.updateTask(task);
-		model.addAttribute("task", taskService.findAllTasks());
 		return "redirect:/tasks";
 	}
 

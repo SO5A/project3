@@ -62,7 +62,7 @@ public class TaskServiceImpl implements TaskService {
 		var task = taskRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException(String.format("Task not found with ID %d", id)));
 
-		taskRepository.deleteById(task.getId());
+		taskRepository.deleteById(task.getTask_id());
 	}
 
 	@Override

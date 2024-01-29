@@ -17,20 +17,28 @@
 						<div>
 							<table class="table table-striped table-responsive-md">
 								<thead>
-									<tr>
-										<th>Department</th>
-										<th>Task Name</th>
-										<th>Employee</th>
-										<th>Description</th>
-									</tr>
+								<tr>
+									<th>Department</th>
+									<th>Task Name</th>
+									<th>Employee</th>
+									<th>Description</th>
+									<th>Files</th>
+								</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td th:text="${task.departments[0].name}"></td>
-										<td th:text="${task.name}"></td>
-										<td th:text="${task.employees[0].name}"></td>
-										<td th:text="${task.description}"></td>
-									</tr>
+								<tr>
+									<td th:text="${task.departments[0].name}"></td>
+									<td th:text="${task.name}"></td>
+									<td th:text="${task.employees[0].name}"></td>
+									<td th:text="${task.description}"></td>
+									<td th:each="dbFile : ${task.dbFiles}">
+										<ul style="list-style: none;">
+											<li>
+												<a th:href="@{/download/{fileId}(fileId=${dbFile.id})}" th:text="${dbFile.fileName}">Download</a>
+											</li>
+										</ul>
+									</td>
+								</tr>
 								</tbody>
 							</table>
 						</div>
