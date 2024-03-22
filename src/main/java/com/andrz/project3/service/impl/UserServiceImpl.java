@@ -3,6 +3,7 @@ package com.andrz.project3.service.impl;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import com.andrz.project3.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -33,6 +33,9 @@ public class Task {
 
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<DBFile> dbFiles = new ArrayList<>();
+
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Comment> comments = new ArrayList<>();
 	public Task() {
 	}
 	public Task(String name, String description) {
@@ -110,5 +113,22 @@ public class Task {
 	public void setDepartments(Set<Department> departments) {
 		this.departments = departments;
 	}
-	
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public void addComment(Comment comment) {
+		comments.add(comment);
+		comment.setTask(this);
+	}
+
+	public void removeComment(Comment comment) {
+		comments.remove(comment);
+		comment.setTask(null);
+	}
 }

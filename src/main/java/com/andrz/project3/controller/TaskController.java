@@ -3,22 +3,22 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.andrz.project3.entity.Comment;
 import com.andrz.project3.entity.DBFile;
 import com.andrz.project3.entity.Task;
-import com.andrz.project3.service.DBFileStorageService;
+import com.andrz.project3.entity.User;
+import com.andrz.project3.service.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.andrz.project3.service.EmployeeService;
-import com.andrz.project3.service.TaskService;
-import com.andrz.project3.service.DepartmentService;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -28,12 +28,18 @@ public class TaskController {
 	final EmployeeService employeeService;
 	final DepartmentService departmentService;
 	final DBFileStorageService dbFileStorageService;
+	final CommentService commentService;
+
+	final UserService userService;
+
 	public TaskController(DepartmentService departmentService, TaskService taskService,
-						  EmployeeService employeeService, DBFileStorageService dbFileStorageService) {
+						  EmployeeService employeeService, DBFileStorageService dbFileStorageService, CommentService commentService) {
 		this.employeeService = employeeService;
 		this.taskService = taskService;
 		this.departmentService = departmentService;
 		this.dbFileStorageService = dbFileStorageService;
+		this.commentService = commentService;
+		userService = null;
 	}
 
 	@RequestMapping({ "/tasks", "/" })
@@ -66,6 +72,7 @@ public class TaskController {
 	public String findTaskById(@PathVariable("id") Long id, Model model) {
 
 		model.addAttribute("task", taskService.findTaskById(id));
+		model.addAttribute("text", "");
 		return "list-task";
 	}
 
@@ -123,5 +130,31 @@ public String createTask(Task task, @RequestParam("file") MultipartFile[] files,
 		model.addAttribute("task", taskService.findAllTasks());
 		return "redirect:/tasks";
 	}
+	@PostMapping("/tasks/{id}/comments")
+	public String addComment(@ModelAttribute Comment comment, Model model, @PathVariable Long id) {
+		// Get the task by ID
+		Task task = taskService.findTaskById(id);
+		if (task == null) {
+			return "redirect:/tasks";
+		}
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
+
+		return "redirect:/tasks";
+	}
+
+	@DeleteMapping("/comments/{commentId}")
+	public String deleteComment(@PathVariable Long commentId) {
+		// Get the comment by ID
+		Comment comment = commentService.findCommentById(commentId);
+		if (comment == null) {
+			return "redirect:/tasks";
+		}
+
+		// Delete the comment
+		commentService.deleteComment(commentId);
+
+		return "redirect:/tasks";
+	}
 }
