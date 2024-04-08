@@ -33,7 +33,7 @@ public class Project3Application {
 
 			var task1 = new Task("Task1"," Description1");
 			task1.addEmployees(new Employee("Andrew", "xwz"));
-			task1.addDepartments(new Department("Department1"));
+			task1.addDepartments(new Department( "Department1"));
 			taskService.createTask(task1);
 
 			var task2 = new Task("Task2", "Description2");

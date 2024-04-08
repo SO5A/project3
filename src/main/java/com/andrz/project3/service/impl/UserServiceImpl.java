@@ -1,6 +1,7 @@
 package com.andrz.project3.service.impl;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.andrz.project3.entity.User;
@@ -35,7 +36,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+		return roles.stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName()))
+				.collect(Collectors.toList());
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> list) {
+		return list.stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName()))
+				.collect(Collectors.toList());
+	}
 }

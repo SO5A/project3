@@ -93,13 +93,14 @@ public String createTask(Task task, @RequestParam("file") MultipartFile[] files,
 
 
 	taskService.createTask(task);
-	for (MultipartFile file : files) {
-		DBFile dbFile = dbFileStorageService.storeFile(file, task);
-		task.addDbFile(dbFile);
+	if(files.length>0) {
+		for (MultipartFile file : files) {
+			DBFile dbFile = dbFileStorageService.storeFile(file, task);
+			task.addDbFile(dbFile);
+		}
+
+		taskService.updateTask(task);
 	}
-
-	taskService.updateTask(task);
-
 	return "redirect:/tasks";
 }
 	@GetMapping("/update/{id}")
@@ -115,9 +116,11 @@ public String createTask(Task task, @RequestParam("file") MultipartFile[] files,
 			task.setTask_id(id);
 			return "update-task";
 		}
-		for (MultipartFile file : files) {
-			DBFile dbFile = dbFileStorageService.storeFile(file, task);
-			task.addDbFile(dbFile);
+		if(files!=null) {
+			for (MultipartFile file : files) {
+				DBFile dbFile = dbFileStorageService.storeFile(file, task);
+				task.addDbFile(dbFile);
+			}
 		}
 		taskService.updateTask(task);
 		return "redirect:/tasks";

@@ -68,8 +68,4 @@ public class Employee {
 		this.tasks = tasks;
 	}
 
-	public Employee() {
-		super();
-	}
-
 }

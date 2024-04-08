@@ -10,4 +10,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
 	@Query("SELECT b FROM Task b WHERE b.name LIKE %?1%")
 	public List<Task> search(String keyword);
+
+	Object findByTitleContaining(String keyword);
 }

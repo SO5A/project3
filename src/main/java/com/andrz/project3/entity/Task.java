@@ -15,8 +15,8 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long task_id;
 
-	@Column(name = "name", length = 100, nullable = false)
-	private String name;
+	@Column(name = "title", length = 100, nullable = false)
+	private String title;
 
 	@Column(name = "description", length = 250, nullable = false)
 	private String description;
@@ -38,8 +38,8 @@ public class Task {
 	private List<Comment> comments = new ArrayList<>();
 	public Task() {
 	}
-	public Task(String name, String description) {
-		this.name = name;
+	public Task(String title, String description) {
+		this.title = title;
 		this.description = description;
 	}
 	public void addDbFile(DBFile file) {
@@ -82,12 +82,12 @@ public class Task {
 		this.task_id = task_id;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -45,7 +46,14 @@ public class User {
 		this.roles = roles;
 	}
 
-	public Long getId() {
+	public <T> User(String mail, String password, List<T> roleUser) {
+
+		this.email = mail;
+		this.password = password;
+		this.roles = roleUser.stream().map(role -> new Role(role.toString())).collect(Collectors.toList());
+	}
+
+    public Long getId() {
 		return id;
 	}
 
